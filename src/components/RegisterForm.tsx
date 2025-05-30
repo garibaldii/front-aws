@@ -1,47 +1,47 @@
 import { useState } from 'react'
+import type { IUser } from '../interface/IUser'
+import { postUser } from '../services/user/userService'
+import { Input } from './ui/input'
+import { Button } from './ui/button'
+import { Label } from './ui/label'
+import { toast } from 'sonner'
+import { useUsersData } from '@/hooks/useUsersData'
 
 export const RegisterForm = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
 
+  const { refreshUsersData } = useUsersData()
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault() // evita refresh da página
 
     try {
-      const response = await fetch('http://localhost:3000/dados', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email }),
-      })
+      const user: IUser = { name, email }
+      await postUser(user)
+      toast.success("Usuário Cadastrado com sucesso!")
+      refreshUsersData()
 
-      if (!response.ok) {
-        throw new Error('Erro no envio')
-      }
-
-      const data = await response.json()
-      console.log('Resposta da API:', data)
-      alert('Cadastro enviado com sucesso!')
-
-      // Limpar formulário
-      setName('')
-      setEmail('')
-    } catch (error) {
+      setName("")
+      setEmail("")
+    }
+    catch (error) {
       console.error(error)
-      alert('Erro ao enviar cadastro')
+      toast(`Erro ao cadastrar: ${error}`)
     }
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-2xl shadow-md w-full max-w-sm"
+      className="card w-full max-w-sm"
     >
+      <h2 className='text-2xl'>Cadastro de Usuários</h2>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">Nome</label>
-          <input
+          <Label className="text-sm font-medium  mb-1">Nome</Label>
+          <Input
             type="text"
             placeholder="Digite seu nome"
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -52,8 +52,8 @@ export const RegisterForm = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input
+          <Label className="text-sm font-medium  mb-1">Email</Label>
+          <Input
             type="email"
             placeholder="Digite seu e-mail"
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -63,12 +63,13 @@ export const RegisterForm = () => {
           />
         </div>
 
-        <button
+        <Button
+          variant={"ghost"}
           type="submit"
-          className="bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition-colors"
+          className='text-white'
         >
           Cadastrar
-        </button>
+        </Button>
       </div>
     </form>
   )

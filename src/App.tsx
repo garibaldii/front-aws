@@ -1,13 +1,16 @@
+import { Toaster } from 'sonner'
 import './App.css'
-import { RegisterForm } from './components/RegisterForm'
+import { UserSession } from './components/UserSession'
 
 function App() {
 
 
   return (
-    <>
-      <RegisterForm />
-    </>
+    <div className='flex items-center justify-center' >
+      <UserSession />
+
+      <Toaster />
+    </div>
   )
 }
 
