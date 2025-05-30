@@ -96,21 +96,20 @@ export function DataTable<TData, TValue>({
         <div>
 
             {/*Filters */}
-            {searchFields.length > 0 &&
+            {/* {searchFields.length > 0 &&
                 <div className="flex items-center py-4">
                     <Input
                         placeholder={searchPlaceholder}
                         value={globalFilter}
                         onChange={(event) => setGlobalFilter(event.target.value)}
-                        className="max-w-sm"
                     />
-                </div>}
+                </div>} */}
 
 
             {/*Table */}
             <div className="rounded-md border-black">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow className="border-black " key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {

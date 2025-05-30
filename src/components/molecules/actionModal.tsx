@@ -1,6 +1,5 @@
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -8,6 +7,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Button } from "../ui/button"
 
 type Props = {
     onClose: () => void
@@ -33,7 +33,7 @@ export function ActionModal({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel onClick={onClose}>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction onClick={onSubmit}>Continuar</AlertDialogAction>
+                    <Button onClick={onSubmit} variant={"ghost"}>Continuar</Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
