@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { getUsers } from "@/services/user/userService"
 import type { IUser } from "@/interface/IUser"
 import { toast } from "sonner"
@@ -15,6 +15,10 @@ export const useUsersData = () => {
             toast("Erro ao carregar usuários")
         }
     }, [])
+
+    useEffect(() => {
+        refreshUsersData()
+    }, [refreshUsersData])
 
     return { users, refreshUsersData }
 }

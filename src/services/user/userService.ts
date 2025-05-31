@@ -13,7 +13,7 @@ export const deleteUser = async (id: string) => {
     return response.data
 }
 
-export const updateUser = async (id: string, data: {}) => {
+export const updateUser = async (id: string, data: {name?: string, email?: string}) => {
     const response = await api.put(`/usuarios/${id}`, data)
 
     return response.data

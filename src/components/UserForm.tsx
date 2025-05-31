@@ -1,71 +1,75 @@
-import { useEffect, useState } from 'react'
-import type { IUser } from '../interface/IUser'
-import { postUser, updateUser } from '../services/user/userService'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import { Label } from './ui/label'
-import { toast } from 'sonner'
-import { useUsersData } from '@/hooks/useUsersData'
-import ArrowBack from '@/assets/arrowBack'
+import { useEffect, useState } from "react";
+import type { IUser } from "../interface/IUser";
+import { postUser, updateUser } from "../services/user/userService";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { toast } from "sonner";
+import ArrowBack from "@/assets/arrowBack";
 
 type Props = {
-  userToEdit: IUser | null
-  setUserToEdit: (user: IUser | null) => void
-}
+  userToEdit: IUser | null;
+  setUserToEdit: (user: IUser | null) => void;
+  refreshUsers: () => void;
+};
 
-export const UserForm = ({ userToEdit, setUserToEdit }: Props) => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+export const UserForm = ({
+  userToEdit,
+  setUserToEdit,
+  refreshUsers,
+}: Props) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-  const { refreshUsersData } = useUsersData()
 
   useEffect(() => {
     console.log("Atualizou userToEdit:", userToEdit);
     if (userToEdit) {
-      setName(userToEdit.name)
-      setEmail(userToEdit.email)
+      setName(userToEdit.name);
+      setEmail(userToEdit.email);
+    } else {
+      setName("");
+      setEmail("");
     }
-    else {
-      setName("")
-      setEmail("")
-    }
-  }, [userToEdit])
-
+  }, [userToEdit]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault() // evita refresh da página
+    e.preventDefault(); // evita refresh da página
+
+    console.log(name, email);
 
     try {
-      const user: IUser = { name, email }
+      const user: IUser = { name, email };
 
       //se existir usuário a ser editado, segue com o service de update
       if (userToEdit && userToEdit._id) {
-        await updateUser(userToEdit._id, user)
-        toast.success("Usuário Atualizado com Sucesso!")
+        await updateUser(userToEdit._id, user);
+        setUserToEdit(null);
+        toast.success("Usuário Atualizado com Sucesso!");
       }
 
-      
       // se nao, service de post
       else {
-        await postUser(user)
-        toast.success("Usuário Cadastrado com sucesso!")
+        await postUser(user);
+        toast.success("Usuário Cadastrado com sucesso!");
       }
 
-      refreshUsersData()
-      setName("")
-      setEmail("")
+      refreshUsers();
+      setName("");
+      setEmail("");
+    } catch (error) {
+      console.error(error);
+      toast(`Erro ao cadastrar: ${error}`);
     }
-    catch (error) {
-      console.error(error)
-      toast(`Erro ao cadastrar: ${error}`)
-    }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-md">
-          {userToEdit ? `Atualizar Usuário: ${userToEdit._id}` : "Cadastrar Usuário"}
+          {userToEdit
+            ? `Atualizar Usuário: ${userToEdit._id}`
+            : "Cadastrar Usuário"}
         </h2>
 
         {/* Opção caso queira voltar ao registro de usuários...*/}
@@ -74,7 +78,7 @@ export const UserForm = ({ userToEdit, setUserToEdit }: Props) => {
             variant="outline"
             size="sm"
             onClick={() => setUserToEdit(null)}
-            title='Voltar para o Cadastro'
+            title="Voltar para o Cadastro"
           >
             <ArrowBack />
           </Button>
@@ -112,6 +116,5 @@ export const UserForm = ({ userToEdit, setUserToEdit }: Props) => {
         </Button>
       </div>
     </form>
-
-  )
-}
+  );
+};

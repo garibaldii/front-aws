@@ -4,12 +4,13 @@ import { useState } from "react"
 import UserDataDatable from "./ui/datatable/user-datatable"
 import { useUsersData } from "@/hooks/useUsersData"
 
+
 export const UserSession = () => {
 
     const [userToEdit, setUserToEdit] = useState<IUser | null>(null)
-
     //retorna os usuários via hook 
-    const { users } = useUsersData()
+    const { users, refreshUsersData } = useUsersData()
+
 
     return (
         <div className="flex  w-full justify-center">
@@ -17,12 +18,13 @@ export const UserSession = () => {
 
                 <div className="w-1/3 flex flex-col justify-center ">
                     <div>
-                        <UserForm userToEdit={userToEdit} setUserToEdit={setUserToEdit} />
+                        <UserForm userToEdit={userToEdit} setUserToEdit={setUserToEdit} refreshUsers={refreshUsersData}  />
                     </div>
                 </div>
 
+
                 <div className=" pl-10">
-                    <UserDataDatable users={users} setUserToEdit={setUserToEdit} />
+                    <UserDataDatable users={users} setUserToEdit={setUserToEdit} refreshUsers={refreshUsersData} />
                 </div>
 
             </div>
