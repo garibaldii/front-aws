@@ -2,13 +2,14 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../button";
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { deleteUser } from "@/services/user/userService";
 
 import type { IUser } from "@/interface/IUser";
 import { DataTable } from "./datatable";
 import { ActionModal } from "@/components/molecules/actionModal";
+import { toast } from "sonner";
 
 interface Props {
   users: IUser[];
@@ -31,9 +32,10 @@ export default function UserDataDatable({
       try {
         await deleteUser(selectedId);
         setDeleteModal(false);
+        toast.success("Object deleted with sucess")
         refreshUsers();
       } catch (err) {
-        console.error("Erro ao deletar:", err);
+        console.error("Error on deleting:", err);
       }
     }
   };
@@ -94,8 +96,8 @@ export default function UserDataDatable({
 
       {/* deletar 🗑️ */}
       <ActionModal
-        title="Excluir Usuário"
-        description="Atenção, tem certeza que deseja excluir este usuário?"
+        title="Delete User"
+        description="Atention, are you sure that want to delete this object?"
         open={deleteModal}
         onClose={() => setDeleteModal(false)}
         onSubmit={handleDelete}

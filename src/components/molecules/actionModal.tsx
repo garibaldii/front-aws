@@ -32,8 +32,8 @@ export function ActionModal({
                     <AlertDialogDescription className="text-lg w-full flex justify-center ">{description}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={onClose}>Cancelar</AlertDialogCancel>
-                    <Button onClick={onSubmit} variant={"ghost"}>Continuar</Button>
+                    <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
+                    <Button onClick={onSubmit} variant={"ghost"}>Continue</Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

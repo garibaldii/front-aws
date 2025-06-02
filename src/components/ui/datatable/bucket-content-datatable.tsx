@@ -4,34 +4,37 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../button";
 import { useMemo, useState } from "react";
 
-import { deleteUser } from "@/services/user/userService";
-
 import { DataTable } from "./datatable";
 import { ActionModal } from "@/components/molecules/actionModal";
 import type { IBucketContent } from "@/interface/IBucketContent";
+import { deleteBucketContent } from "@/services/buckets/bucketService";
+import { toast } from "sonner";
 
 interface Props {
+  bucketName: string
   contents: IBucketContent[];
   refreshContents: () => void;
 }
 
 export default function BucketContentDatatable({
-  contents: users,
+  bucketName,
+  contents,
   refreshContents,
 }: Props) {
   //delete modal🗑️
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   const handleDelete = async () => {
-    if (selectedId !== null) {
+    if (selectedKey !== null) {
       try {
-        await deleteUser(selectedId);
+        await deleteBucketContent(bucketName, selectedKey);
         setDeleteModal(false);
+        toast.success("Object deleted with sucess")
         refreshContents();
       } catch (err) {
-        console.error("Erro ao deletar:", err);
+        console.error("Erro on deleting:", err);
       }
     }
   };
@@ -78,7 +81,7 @@ export default function BucketContentDatatable({
             <div className="flex p-3">
               <Button
                 onClick={() => {
-                  setSelectedId(content?.Key ?? null);
+                  setSelectedKey(content?.Key ?? null);
                   setDeleteModal(true);
                 }}
               >
@@ -94,12 +97,12 @@ export default function BucketContentDatatable({
 
   return (
     <div>
-      <DataTable columns={columns} data={users} pageSize={5} />
+      <DataTable columns={columns} data={contents} pageSize={5} />
 
       {/* deletar 🗑️ */}
       <ActionModal
-        title="Excluir Conteúdo"
-        description="Atenção, tem certeza que deseja excluir este conteúdo?"
+        title="Delete Content"
+        description="Atention, are you sure that want to delete this object?"
         open={deleteModal}
         onClose={() => setDeleteModal(false)}
         onSubmit={handleDelete}

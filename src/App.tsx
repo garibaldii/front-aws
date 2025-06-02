@@ -1,8 +1,10 @@
 import { Toaster } from 'sonner'
 import './App.css'
-import { BucketSession } from './components/BucketSession'
+import { BucketDecider } from './components/pages/bucket/BucketDecider'
 import { Route, Routes } from 'react-router-dom'
-import { BucketDetail } from './components/BucketDetail'
+import { BucketSession } from './components/pages/bucket/BucketSession'
+import { UserSession } from './components/pages/user/UserSession'
+import { Home } from './components/pages/home/Home'
 
 function App() {
 
@@ -10,8 +12,10 @@ function App() {
   return (
     <div className='flex items-center justify-center' >
       <Routes>
-        <Route path='/bucket/:name' element={<BucketDetail/>}/>
-        <Route path='/buckets' element={<BucketSession/>}/>
+        <Route path='/' element={<Home />} />
+        <Route path='/bucket/:name' element={<BucketSession />} />
+        <Route path='/buckets' element={<BucketDecider />} />
+        <Route path='/users' element={<UserSession />} />
       </Routes>
 
       <Toaster />

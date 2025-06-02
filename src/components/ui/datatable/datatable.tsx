@@ -58,7 +58,6 @@ export function DataTable<TData, TValue>({
     pageSize = 5,
     searchFields = [],
     defaultSearch = "",
-    searchPlaceholder = "Filtre por dados abaixo",
     onRowClick
 }: DataTableProps<TData, TValue>) {
     const [globalFilter, setGlobalFilter] = React.useState(defaultSearch);
@@ -92,52 +91,45 @@ export function DataTable<TData, TValue>({
         },
     });
 
-    return (
-        <div>
-
-            {/*Filters */}
-            {/* {searchFields.length > 0 &&
-                <div className="flex items-center py-4">
-                    <Input
-                        placeholder={searchPlaceholder}
-                        value={globalFilter}
-                        onChange={(event) => setGlobalFilter(event.target.value)}
-                    />
-                </div>} */}
-
-
-            {/*Table */}
-            <div className="rounded-md border-black">
-                <Table>
-                    <TableHeader className="">
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow className="border-black " key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id} className="text-gray-950 font-bold">
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    );
-                                })}
-                            </TableRow>
-                        ))}
-                    </TableHeader>
-                    <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
+return (
+    <div>
+        {/* Tabela */}
+        <div className="rounded-md border-black overflow-x-auto">
+            <Table>
+                <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow className="border-black" key={headerGroup.id}>
+                            {headerGroup.headers.map((header, colIdx) => (
+                                <TableHead
+                                    key={header.id}
+                                    className="text-gray-950 font-bold w-[200px] max-w-[200px] truncate"
+                                >
+                                    {header.isPlaceholder
+                                        ? null
+                                        : flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                </TableHead>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableHeader>
+                <TableBody>
+                    {table.getRowModel().rows?.length ? (
+                        <>
+                            {table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                     className="border-black"
                                     onClick={() => onRowClick?.(row.original)}
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                    {row.getVisibleCells().map((cell, colIdx) => (
+                                        <TableCell
+                                            key={cell.id}
+                                            className="w-[200px] max-w-[200px] truncate"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -145,41 +137,61 @@ export function DataTable<TData, TValue>({
                                         </TableCell>
                                     ))}
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                    className="h-24 text-center"
-                                >
-                                    Sem resultados.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
+                            ))}
 
-            {
-                data.length > 5 &&
-                <div className="flex items-center justify-end space-x-2 py-4">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        Anterior
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Próxima
-                    </Button>
-                </div>}
+                            {/* Linhas vazias com altura igual */}
+                            {Array.from({
+                                length: pageSize - table.getRowModel().rows.length,
+                            }).map((_, idx) => (
+                                <TableRow key={`empty-${idx}`} className="border-black h-19">
+                                    {columns.map((_, colIdx) => (
+                                        <TableCell
+                                            key={colIdx}
+                                            className="w-[200px] max-w-[200px] opacity-0 select-none"
+                                        >
+                                            Placeholder
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </>
+                    ) : (
+                        <TableRow>
+                            <TableCell
+                                colSpan={columns.length}
+                                className="h-24 text-center"
+                            >
+                                Sem resultados.
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
         </div>
-    );
+
+        {/* Paginação */}
+        {data.length > pageSize && (
+            <div className="flex items-center justify-end space-x-2 py-4">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    Anterior
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    Próxima
+                </Button>
+            </div>
+        )}
+    </div>
+);
+
+
 }
