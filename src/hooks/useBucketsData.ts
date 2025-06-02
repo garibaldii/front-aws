@@ -12,7 +12,7 @@ export const useBucketsData = () => {
             setBuckets(data)
         } catch (error) {
             console.error(error)
-            toast("Erro ao carregar buckets s3")
+            toast.error("Erro ao carregar buckets s3")
         }
     }, [])
 
@@ -20,5 +20,5 @@ export const useBucketsData = () => {
         refreshBucketsData()
     }, [refreshBucketsData])
 
-    return {buckets, refreshBucketsData }
+    return { buckets, refreshBucketsData }
 }

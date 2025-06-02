@@ -25,3 +25,10 @@ export const postBucketContent = async (name: string, file: File) => {
 
   return respose.data;
 };
+
+
+export const deleteBucketContent = async (bucketName: string, contentKey: string) => {
+  const response = await api.delete(`/buckets/${bucketName}/file/${contentKey}`)
+  
+  return response.data
+}

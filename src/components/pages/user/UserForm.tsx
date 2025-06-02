@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { IUser } from "../interface/IUser";
-import { postUser, updateUser } from "../services/user/userService";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+import type { IUser } from "../../../interface/IUser";
+import { postUser, updateUser } from "../../../services/user/userService";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { Label } from "../../ui/label";
 import { toast } from "sonner";
 import ArrowBack from "@/assets/arrowBack";
 
@@ -18,6 +18,7 @@ export const UserForm = ({
   setUserToEdit,
   refreshUsers,
 }: Props) => {
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -45,13 +46,13 @@ export const UserForm = ({
       if (userToEdit && userToEdit._id) {
         await updateUser(userToEdit._id, user);
         setUserToEdit(null);
-        toast.success("Usuário Atualizado com Sucesso!");
+        toast.success("User Updated with Success!");
       }
 
       // se nao, service de post
       else {
         await postUser(user);
-        toast.success("Usuário Cadastrado com sucesso!");
+        toast.success("User Created with Success!");
       }
 
       refreshUsers();
@@ -59,18 +60,18 @@ export const UserForm = ({
       setEmail("");
     } catch (error) {
       console.error(error);
-      toast(`Erro ao cadastrar: ${error}`);
+      toast(`Error on creating: ${error}`);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-md">
+        <p className="font-semibold text-orange-500 text-xl" >
           {userToEdit
-            ? `Atualizar Usuário: ${userToEdit._id}`
-            : "Cadastrar Usuário"}
-        </h2>
+            ? `Update User: ${userToEdit._id}`
+            : "Create User:"}
+        </p>
 
         {/* Opção caso queira voltar ao registro de usuários...*/}
         {userToEdit && (
@@ -78,7 +79,7 @@ export const UserForm = ({
             variant="outline"
             size="sm"
             onClick={() => setUserToEdit(null)}
-            title="Voltar para o Cadastro"
+            title="Back to Create Form"
           >
             <ArrowBack />
           </Button>
@@ -88,10 +89,10 @@ export const UserForm = ({
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <Label className="text-sm font-medium mb-1">Nome</Label>
+          <Label className="text-sm font-medium mb-1">Name</Label>
           <Input
             type="text"
-            placeholder="Digite seu nome"
+            placeholder="Write a name"
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -103,7 +104,7 @@ export const UserForm = ({
           <Label className="text-sm font-medium mb-1">Email</Label>
           <Input
             type="email"
-            placeholder="Digite seu e-mail"
+            placeholder="Write an e-mail"
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -112,7 +113,7 @@ export const UserForm = ({
         </div>
 
         <Button type="submit" variant="ghost" className="text-white">
-          {userToEdit ? "Atualizar" : "Cadastrar"}
+          {userToEdit ? "Update" : "Create"}
         </Button>
       </div>
     </form>
