@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import { BucketSession } from './components/pages/bucket/BucketSession'
 import { UserSession } from './components/pages/user/UserSession'
 import { Home } from './components/pages/home/Home'
+import { ProductSession } from './components/pages/product/ProductSession'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/bucket/:name' element={<BucketSession />} />
         <Route path='/buckets' element={<BucketDecider />} />
         <Route path='/users' element={<UserSession />} />
+        <Route path='/products' element={<ProductSession />} />
       </Routes>
 
       <Toaster />
