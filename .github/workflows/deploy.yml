@@ -8,6 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      VITE_EC2_API_URL: ${{ secrets.VITE_EC2_API_URL }}
+
     outputs:
       new_version: ${{ steps.version.outputs.new_version }}
       repo_name: ${{ steps.define_repo_name.outputs.repo_name }}
@@ -18,8 +21,8 @@ jobs:
         with:
           fetch-depth: 0
       
-      #- name: Instalar dependências
-      #  run: npm install --force
+      - name: Instalar dependências
+        run: npm install --force
 
       - name: Instalar semver
         run: npm install -g semver
@@ -151,8 +154,9 @@ jobs:
         if: steps.version.outputs.should_deploy == 'true'
         run: |
           echo "Iniciando build da imagem Docker para o repositório $REPO_NAME"
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:$new_version .
+          docker build --build-arg VITE_EC2_API_URL=${{ env.VITE_EC2_API_URL }} -t ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:$new_version .
           docker tag ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:$new_version ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:latest
+
       - name: Efetuar push da imagem
         if: steps.version.outputs.should_deploy == 'true'
         run: |
@@ -229,7 +233,7 @@ jobs:
             sudo yum update -y || sudo apt update -y
             sudo systemctl start docker || sudo service docker start
             # Verificar container existente
-            CONTAINER_ID=$(docker ps -q --filter "name=$REPO_NAME")
+            CONTAINER_ID=$(docker ps -aq --filter "name=^/${REPO_NAME}$")
             if [ -n "$CONTAINER_ID" ]; then
               echo "⚙️ Container atual em execução:"
               docker inspect --format='{{.Config.Image}}' $CONTAINER_ID
@@ -243,4 +247,4 @@ jobs:
             echo "⬇️ Baixando nova imagem..."
             docker pull $IMAGE
             echo "🚀 Subindo novo container... $REPO_NAME $IMAGE"
-            docker run -d -p 80:80 --name $REPO_NAME $IMAGE
+            docker run -d -p 3000:80 --name $REPO_NAME $IMAGE
