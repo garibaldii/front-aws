@@ -65,7 +65,7 @@ export const UserForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form onSubmit={handleSubmit} className="w-full border-1 border-gray-500 rounded-xl p-5 shadow-lg">
       <div className="flex items-center justify-between mb-2">
         <p className="font-semibold text-orange-500 text-xl" >
           {userToEdit
@@ -112,7 +112,7 @@ export const UserForm = ({
           />
         </div>
 
-        <Button type="submit" variant="ghost" className="text-white">
+        <Button type="submit" variant="ghost" className="text-white border-gray-500 border-1">
           {userToEdit ? "Update" : "Create"}
         </Button>
       </div>

@@ -63,7 +63,7 @@ export const ProductForm = ({ productToEdit, setProductToEdit, refreshProductDat
     }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full">
+        <form onSubmit={handleSubmit} className="w-full border-1 border-gray-500 rounded-xl p-5 shadow-lg">
             <div className="flex items-center justify-between mb-2">
                 <p className="font-semibold text-orange-500 text-xl" >
                     {productToEdit
@@ -90,7 +90,7 @@ export const ProductForm = ({ productToEdit, setProductToEdit, refreshProductDat
                     <Label className="text-sm font-medium mb-1">Name</Label>
                     <Input
                         type="text"
-                        placeholder="Write a name"
+                        placeholder="Write the product's name"
                         className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -102,7 +102,7 @@ export const ProductForm = ({ productToEdit, setProductToEdit, refreshProductDat
                     <Label className="text-sm font-medium mb-1">Description</Label>
                     <Input
                         type="text"
-                        placeholder="Write an e-mail"
+                        placeholder="write a description abou your product"
                         className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -123,7 +123,7 @@ export const ProductForm = ({ productToEdit, setProductToEdit, refreshProductDat
                     />
                 </div>
 
-                <Button type="submit" variant="ghost" className="text-white">
+                <Button type="submit" variant="ghost" className="text-white border-gray-500 border-1">
                     {productToEdit ? "Update" : "Create"}
                 </Button>
             </div>

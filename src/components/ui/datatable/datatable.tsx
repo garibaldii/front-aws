@@ -94,11 +94,11 @@ export function DataTable<TData, TValue>({
 return (
     <div>
         {/* Tabela */}
-        <div className="rounded-md border-black overflow-x-auto">
+        <div className="rounded-md border-white overflow-x-auto">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow className="border-black" key={headerGroup.id}>
+                        <TableRow className="border-white" key={headerGroup.id}>
                             {headerGroup.headers.map((header, colIdx) => (
                                 <TableHead
                                     key={header.id}
@@ -122,7 +122,7 @@ return (
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
-                                    className="border-black"
+                                    className="border-white"
                                     onClick={() => onRowClick?.(row.original)}
                                 >
                                     {row.getVisibleCells().map((cell, colIdx) => (
@@ -143,7 +143,7 @@ return (
                             {Array.from({
                                 length: pageSize - table.getRowModel().rows.length,
                             }).map((_, idx) => (
-                                <TableRow key={`empty-${idx}`} className="border-black h-19">
+                                <TableRow key={`empty-${idx}`} className="border-white h-19">
                                     {columns.map((_, colIdx) => (
                                         <TableCell
                                             key={colIdx}

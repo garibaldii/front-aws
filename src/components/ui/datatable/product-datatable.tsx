@@ -52,7 +52,11 @@ export const ProductDataTable = ({ data, setObjectToEdit, refreshData }: Props) 
             {
                 accessorKey: "price",
                 header: "Price",
-                cell: ({ row }) => <div>{row.getValue("price")}</div>,
+                cell: ({ row }) =>
+                    <div className="flex">
+                        <p className="pr-1">USD</p>
+                        {row.getValue("price")}
+                    </div>,
                 size: 1
             },
             {

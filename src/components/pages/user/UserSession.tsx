@@ -18,7 +18,7 @@ export const UserSession = () => {
     return (
         <div className="flex  w-full justify-center">
 
-            <div className="flex justify-center bg-gray-950 w-3/4 rounded-2xl p-10">
+            <div className="flex justify-center bg-[#1c1c1c] w-3/4 rounded-sm p-10 border-1 border-gray-700 ">
                 <ArrowBack onClick={() => navigate(-1)} className="cursor-pointer h-4 mb-10" />
 
                 <div className="w-1/3 flex flex-col justify-center ">
