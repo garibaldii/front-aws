@@ -229,7 +229,7 @@ jobs:
             sudo yum update -y || sudo apt update -y
             sudo systemctl start docker || sudo service docker start
             # Verificar container existente
-            CONTAINER_ID=$(docker ps -q --filter "name=$REPO_NAME")
+            CONTAINER_ID=$(docker ps -aq --filter "name=^/${REPO_NAME}$")
             if [ -n "$CONTAINER_ID" ]; then
               echo "⚙️ Container atual em execução:"
               docker inspect --format='{{.Config.Image}}' $CONTAINER_ID
