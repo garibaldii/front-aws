@@ -20,7 +20,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Input } from "../input";
 import { Button } from "../button";
 
 
@@ -99,7 +98,7 @@ return (
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow className="border-white" key={headerGroup.id}>
-                            {headerGroup.headers.map((header, colIdx) => (
+                            {headerGroup.headers.map((header) => (
                                 <TableHead
                                     key={header.id}
                                     className="text-gray-950 font-bold w-[200px] max-w-[200px] truncate"
@@ -125,7 +124,7 @@ return (
                                     className="border-white"
                                     onClick={() => onRowClick?.(row.original)}
                                 >
-                                    {row.getVisibleCells().map((cell, colIdx) => (
+                                    {row.getVisibleCells().map((cell) => (
                                         <TableCell
                                             key={cell.id}
                                             className="w-[200px] max-w-[200px] truncate"
