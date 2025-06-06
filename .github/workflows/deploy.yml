@@ -134,19 +134,19 @@ jobs:
           else
             echo "Repositório $REPO_NAME já existe no Docker Hub."
           fi
-      - name: Inserir versão no App.js
+      - name: Inserir versão no App.tsx
         if: steps.version.outputs.should_deploy == 'true'
         run: |
-          echo "🔧 Inserindo versão no src/App.js"
+          echo "🔧 Inserindo versão no src/App.tsx"
           VERSION=${{ steps.version.outputs.new_version }}
-          # Substituir ou adicionar linha com a versão
-          sed -i '/<\/Container>/i \
-            <Row className="mt-3">\
-              <Col>\
-                <p style={{ textAlign: "center", fontStyle: "italic" }}>Versão: '"$VERSION"'</p>\
-              </Col>\
-            </Row>' src/App.js
+          FILE="src/App.tsx"
+          if grep -q '</Routes>' "$FILE"; then
+          sed -i '/<\/Routes>/a\
+            <div className="text-sm italic text-center mt-4 text-gray-500">Versão: '"$VERSION"'</div>' "$FILE"
           echo "✅ Versão $VERSION inserida no frontend"
+          else
+            echo "⚠️ Nenhum </Routes> encontrado no arquivo $FILE. Nenhuma modificação feita."
+          fi
       - name: Criar imagem docker
         if: steps.version.outputs.should_deploy == 'true'
         run: |
