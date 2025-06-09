@@ -17,7 +17,7 @@ COPY . .
 ARG VITE_EC2_API_URL
 
 # Exporta como variável de ambiente para o Vite captar no build
-ENV VITE_EC2_API_URL=$VITE_EC2_API_URL
+ENV VITE_EC2_API_URL=${VITE_EC2_API_URL}
 
 # Executa o build da aplicação React (Vite)
 RUN npm run build
