@@ -1,14 +1,8 @@
-import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 export const Home = () => {
     const navigate = useNavigate()
 
-
-    useEffect(() => {
-        const API_URL = import.meta.env.VITE_EC2_API_URL
-        console.log(API_URL)
-    })
 
     return (
         <div className="w-2/3">
