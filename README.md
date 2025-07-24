@@ -55,7 +55,7 @@ O backend pode ser encontrado neste link:
 
 ## 🚀 Como rodar localmente
 
-1. Clone o repositório frontend:
+
 
    ```bash
    git clone https://github.com/garibaldii/frontend-aws.git
