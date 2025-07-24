@@ -1,4 +1,4 @@
-# 🚀 Projeto Frontend Vite + AWS Cloud Integration
+#  Projeto Frontend Vite + AWS Cloud Integration
 
 Este repositório contém o **frontend** de uma aplicação moderna desenvolvida com **Vite** que interage diretamente com diversos serviços da **AWS**, compondo uma solução completa de cloud computing.  
 
@@ -6,7 +6,7 @@ O projeto foi inicializado pela **FATEC Votorantim** como parte do aprendizado e
 
 ---
 
-## 🏗️ Arquitetura e Hospedagem
+##  Arquitetura e Hospedagem
 
 A aplicação front-end se comunica com uma API hospedada em **EC2** que, por sua vez, acessa bancos de dados MongoDB e MySQL, também hospedados em instâncias EC2 e no serviço gerenciado RDS, respectivamente.  
 
