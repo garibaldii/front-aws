@@ -1,54 +1,65 @@
-# React + TypeScript + Vite
+# 🚀 Projeto Frontend Vite + AWS Cloud Integration
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositório contém o **frontend** de uma aplicação moderna desenvolvida com **Vite** que interage diretamente com diversos serviços da **AWS**, compondo uma solução completa de cloud computing.  
 
-Currently, two official plugins are available:
+O projeto foi inicializado pela **FATEC Votorantim** como parte do aprendizado e prática de desenvolvimento e arquitetura em nuvem.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🏗️ Arquitetura e Hospedagem
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+A aplicação front-end se comunica com uma API hospedada em **EC2** que, por sua vez, acessa bancos de dados MongoDB e MySQL, também hospedados em instâncias EC2 e no serviço gerenciado RDS, respectivamente.  
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Além disso, o sistema utiliza buckets S3 para armazenar arquivos em dois ambientes distintos:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Bucket de Produção**
+- **Bucket de Homologação**  
+  Com regras configuradas para replicação automática entre os buckets, garantindo alta disponibilidade e sincronização de dados.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Todas as requisições e métricas são monitoradas em tempo real via **CloudWatch**, permitindo acompanhamento e alertas sobre o desempenho e saúde da aplicação.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
+
+## 🔧 Serviços AWS Utilizados
+
+| Serviço              | Uso                                           |
+|----------------------|-----------------------------------------------|
+| **EC2 (API)**        | Hospedagem da API que serve dados ao frontend |
+| **EC2 (MongoDB)**    | Banco NoSQL gerenciado em instância EC2       |
+| **EC2 (Frontend)**   | Hospedagem do frontend Vite                     |
+| **RDS (MySQL)**      | Banco relacional gerenciado para dados críticos|
+| **S3 Buckets**       | Armazenamento de arquivos com replicação       |
+| **CloudWatch**       | Monitoramento e logs de todas as requisições   |
+
+---
+
+## ⚙️ CI/CD e Docker
+
+O repositório do frontend conta com um pipeline automatizado configurado via arquivo `.github/workflows/deploy.yml` que executa as seguintes tarefas:
+
+- Build da aplicação Vite
+- Testes automatizados
+- Construção da imagem Docker
+- Deploy automático para a instância EC2 de frontend
+
+Esse processo de CI/CD garante entregas rápidas, confiáveis e rastreáveis a cada alteração no código.
+
+---
+
+## 🔗 Repositório da API
+
+O backend pode ser encontrado neste link:  
+[https://github.com/garibaldii/api-aws2.git](https://github.com/garibaldii/api-aws2.git)
+
+---
+
+## 🚀 Como rodar localmente
+
+1. Clone o repositório frontend:
+
+   ```bash
+   git clone https://github.com/garibaldii/frontend-aws.git
+   cd frontend-aws
+   npm install
+   npm run dev
+   
